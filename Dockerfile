@@ -2,9 +2,9 @@
 
 # MAINTAINER Okan Kozarva <okozarva@gmail.com>
 
- RUN apt-get update
+# RUN apt-get update
 
- RUN apt-get install -y nginx=1.16.1* \
+# RUN apt-get install -y nginx=1.16.1* \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -14,4 +14,4 @@
 
  EXPOSE 80
 
- ENTRYPOINT nginx -g 'daemon off;'
+ #ENTRYPOINT nginx -g 'daemon off;'
