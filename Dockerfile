@@ -8,7 +8,7 @@
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
- ADD [ "template/index.html", "/var/www/html/" ]
+# ADD [ "template/index.html", "/var/www/html/" ]
 
  COPY template/index.html /var/www/html/
 
