@@ -1,31 +1,15 @@
 # Use container-based infrastructure for quicker build start-up
-sudo: required
+sudo: false
 # Use generic image to cut start-up time
-language: bash
+language: generic
 env:
   # Path to 'hadolint' binary
-#  HADOLINT: "${HOME}/hadolint"
-    global:
-    - HADOLINT_VERSION=1.17.1
-
-before_install:
+  HADOLINT: "${HOME}/hadolint"
+install:
   # Download hadolint binary and set it as executable
-#  - curl -sL -o ${HADOLINT} "https://github.com/hadolint/hadolint/releases/download/v1.16.0/hadolint-$(uname -s)-$(uname -m)"
-#    && chmod 700 ${HADOLINT}
-  - sudo curl -L https://github.com/hadolint/hadolint/releases/download/v$HADOLINT_VERSION/hadolint-$(uname -s)-$(uname -m) -o /usr/local/bin/hadolint
-  - sudo chmod +rx /usr/local/bin/hadolint
-
-install: true
-
+  - curl -sL -o ${HADOLINT} "https://github.com/hadolint/hadolint/releases/download/v1.16.0/hadolint-$(uname -s)-$(uname -m)"
+    && chmod 700 ${HADOLINT}
 script:
   # List files which name starts with 'Dockerfile'
   # eg. Dockerfile, Dockerfile.build, etc.
-#  - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
-#  - git ls-files -- 'Dockerfile'
-#  - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
-#  - ${HADOLINT} --ignore DL3009 --ignore DL3015 --ignore DL3025 Dockerfile
-  - hadolint --ignore DL3009 --ignore DL3015 --ignore DL3025 Dockerfile
-#  - git ls-files -- 'Dockerfile' | xargs --max-lines=1 hadolint
-#  - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 hadolint
-  - hadolint Dockerfile
-  - hadolint --ignore DL3009 --ignore DL3015 --ignore DL3025 Dockerfile
+  - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
