@@ -13,3 +13,6 @@ script:
   # List files which name starts with 'Dockerfile'
   # eg. Dockerfile, Dockerfile.build, etc.
   - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
+
+after_success:
+  - docker build -f Dockerfile -t okozarva/nginx:1.0 .
