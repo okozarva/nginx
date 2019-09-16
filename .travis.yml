@@ -5,14 +5,38 @@ language: generic
 env:
   # Path to 'hadolint' binary
   HADOLINT: "${HOME}/hadolint"
-install:
+
+jobs:
+  include:
+    - stage: test
+      install:
   # Download hadolint binary and set it as executable
-  - curl -sL -o ${HADOLINT} "https://github.com/hadolint/hadolint/releases/download/v1.16.0/hadolint-$(uname -s)-$(uname -m)"
-    && chmod 700 ${HADOLINT}
-script:
+      - curl -sL -o ${HADOLINT} "https://github.com/hadolint/hadolint/releases/download/v1.16.0/hadolint-$(uname -s)-$(uname -m)"
+        && chmod 700 ${HADOLINT}
+      script:
   # List files which name starts with 'Dockerfile'
   # eg. Dockerfile, Dockerfile.build, etc.
-  - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
+        - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
 
-after_success:
-  - docker build -f Dockerfile -t okozarva/nginx:1.0 .
+      after_success:
+      - docker build -f Dockerfile -t okozarva/nginx:1.0 .
+
+    - stage: deploy
+      if: branch = master
+      install:
+  # Download hadolint binary and set it as executable
+      - curl -sL -o ${HADOLINT} "https://github.com/hadolint/hadolint/releases/download/v1.16.0/hadolint-$(uname -s)-$(uname -m)"
+        && chmod 700 ${HADOLINT}
+      script:
+  # List files which name starts with 'Dockerfile'
+  # eg. Dockerfile, Dockerfile.build, etc.
+        - git ls-files --exclude='Dockerfile*' --ignored | xargs --max-lines=1 ${HADOLINT}
+
+      after_success:
+      - docker build -f Dockerfile -t okozarva/nginx:1.0 .
+      
+      deploy:
+        provider: script
+        script: bash docker_push
+        on:
+          branch: master
