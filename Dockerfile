@@ -2,7 +2,7 @@
 
 # MAINTAINER Okan Kozarva <okozarva@gmail.com>
 
- RUN apt-get update && apt-get install -y --no-install-recommends nginx=1.16.1* \
+ RUN apt-get update && apt-get install -y --no-install-recommends nginx=1.14.0-0ubuntu1.6 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
